@@ -24,6 +24,7 @@ import { CalendarIcon } from "lucide-react"
 
 import { format } from "date-fns"
 import { cn } from "@/lib/utils"
+import axios from 'axios'
 
 const FormSchema = z.object({
   task: z.string().min(1, {
@@ -53,7 +54,18 @@ export default function TaskInputForm() {
             <p className="text-white">Due on: {data.dueDate.toDateString()}</p>
           </span>
         ),
+      });
+
+    axios.post('http://127.0.0.1/api/todo/create', {
+      todo: data.task,
+    })
+      .then(function (response) {
+        console.log(response);
       })
+      .catch(function (error) {
+        console.log(error);
+      });
+
   }
 
   return (

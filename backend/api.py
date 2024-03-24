@@ -6,6 +6,8 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+app.config["CORS_HEADERS"] = "Content-Type"
+app.config["CORS_HEADERS"] = "Access-Control-Allow-Origin"
 
 
 @app.get("/api/todos")
@@ -13,8 +15,9 @@ def fetch_all():
     "Get all todos"
     todos = session.query(Todo).order_by(Todo.id.asc()).all()
 
-    res = [todo.as_json() for todo in todos]
-    return jsonify(res)
+    res = jsonify([todo.as_json() for todo in todos])
+
+    return res
 
 
 @app.post("/api/todo/create")
