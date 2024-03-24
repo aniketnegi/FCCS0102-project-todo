@@ -1,13 +1,9 @@
 from db import Todo, session
 from flask import Flask, jsonify, request
-from flask_cors import CORS
-
-# from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
-cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
-app.config["CORS_HEADERS"] = "Content-Type"
-app.config["CORS_HEADERS"] = "Access-Control-Allow-Origin"
+cors = CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
 
 
 @app.get("/api/todos")
