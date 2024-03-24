@@ -2,7 +2,6 @@ import { useState, useEffect } from "react"
 import axios from 'axios'
 import { Checkbox } from "./ui/checkbox";
 
-
 function Task() {
     const [todos, setTodos] = useState([]);
 

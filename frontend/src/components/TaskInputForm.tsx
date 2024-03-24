@@ -56,7 +56,7 @@ export default function TaskInputForm() {
         ),
       });
 
-    axios.post('http://127.0.0.1/api/todo/create', {
+    axios.post('http://127.0.0.1:5000/api/todo/create', {
       "todo": data.task,
     })
       .then(function (response) {
