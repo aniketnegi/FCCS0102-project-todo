@@ -26,6 +26,12 @@ import { format } from "date-fns"
 import { cn } from "@/lib/utils"
 import axios from 'axios'
 
+// cheesy way to re-render <Task> on submit
+interface TaskInputFormProps {
+  updateTodos: () => void;
+}
+
+
 const FormSchema = z.object({
   task: z.string().min(1, {
     message: "Todo event can't be empty!",
@@ -34,7 +40,7 @@ const FormSchema = z.object({
   // dueTime: z.time() ?????
 })
 
-export default function TaskInputForm() {
+export default function TaskInputForm({ updateTodos }: TaskInputFormProps) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -60,6 +66,7 @@ export default function TaskInputForm() {
       "todo": data.task,
     })
       .then(function (response) {
+        updateTodos();
         console.log(response);
       })
       .catch(function (error) {
