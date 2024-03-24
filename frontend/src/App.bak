@@ -1,15 +1,13 @@
 import { CardTitle, CardDescription, CardHeader, CardContent, CardFooter, Card } from "@/components/ui/card"
+import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-
-import TaskInputForm from "@/components/TaskInputForm"
-import { Toaster } from "./components/ui/toaster"
-import DueDateInput from "./components/DueDateInput"
 
 export default function App() {
   return (
     <>
-    <Toaster />
       <div className="px-96 py-72">
+        <form className="flex flex-col gap-4 flex-1">
           <Card>
             <CardHeader>
               <CardTitle>TaskMaster</CardTitle>
@@ -17,8 +15,26 @@ export default function App() {
             </CardHeader>
             <CardContent className="grid gap-4">
               <div className="grid grid-cols-2 gap-4">
-                <TaskInputForm />
-                <DueDateInput />
+                <div>
+                  <Label className="text-sm" htmlFor="task">
+                    Task
+                  </Label>
+                  <Input id="task" placeholder="Add a new task..." type="text" />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label className="text-sm" htmlFor="due-date">
+                      Due Date
+                    </Label>
+                    <Input className="w-full" id="due-date" type="date" />
+                  </div>
+                  <div>
+                    <Label className="text-sm" htmlFor="due-time">
+                      Due Time
+                    </Label>
+                    <Input className="w-full" id="due-time" type="time" />
+                  </div>
+                </div>
               </div>
               <ul className="divide-y divide-gray-200 dark:divide-gray-700">
                 <li className="flex items-center justify-between py-2">
@@ -54,9 +70,10 @@ export default function App() {
               </ul>
             </CardContent>
             <CardFooter>
-              <Button type="submit" className="w-full">Add Task</Button>
+              <Button className="w-full">Add Task</Button>
             </CardFooter>
           </Card>
+        </form>
       </div>
 
       <div className="absolute top-4 right-4">
