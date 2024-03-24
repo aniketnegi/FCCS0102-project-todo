@@ -76,5 +76,6 @@
 }
 
 body {
-  font-family: 'Inter Variable', sans-serif;
+  height: 100% !important;
+  font-family: "Inter Variable", sans-serif !important;
 }

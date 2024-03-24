@@ -10,8 +10,20 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
 import { Input } from "@/components/ui/input"
-import { toast } from "@/components/ui/use-toast"
+import { toast } from "sonner"
+import { Button } from "@/components/ui/button"
+import { Calendar } from "@/components/ui/calendar"
+
+import { CalendarIcon } from "lucide-react"
+
+import { format } from "date-fns"
+import { cn } from "@/lib/utils"
 
 const FormSchema = z.object({
   task: z.string().min(1, {
@@ -30,36 +42,79 @@ export default function TaskInputForm() {
     },
   })
 
+  /* !!! TODO
+   * Somehow due date is not showind
+  */
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    toast({
-      title: "Added Todo Event!",
-      description: (
-        <span className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <p className="text-white">Task: {JSON.stringify(data, null, 2)}</p>
-        </span>
-      ),
-    })
+    toast.success(`Created: ${data.task}`,
+      {
+        description: (
+          <span className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+            <p className="text-white">Due on: {data.dueDate.toDateString()}</p>
+          </span>
+        ),
+      })
   }
 
   return (
-    <>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-          <FormField
-            control={form.control}
-            name="task"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Task</FormLabel>
-                <FormControl>
-                  <Input placeholder="Add a new task." {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </form>
-      </Form>
-    </>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-2 gap-4">
+        <FormField
+          control={form.control}
+          name="task"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Task<span className="text-red-400">*</span></FormLabel>
+              <FormControl>
+                <Input placeholder="Add a new task." {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="dueDate"
+          render={({ field }) => (
+            <FormItem className="grid grid-flow-row auto-rows-max h-auto pt-1.5">
+              <FormLabel className="mb-1">Due Date</FormLabel>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        "w-[240px] pl-3 text-left font-normal",
+                        !field.value && "text-muted-foreground"
+                      )}
+                    >
+                      {field.value ? (
+                        format(field.value, "PPP")
+                      ) : (
+                        <span>Pick a date</span>
+                      )}
+                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={field.value}
+                    onSelect={field.onChange}
+                    disabled={(date) =>
+                      date < new Date() || date < new Date("1900-01-01")
+                    }
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+            </FormItem>
+          )}
+        />
+        <Button type="submit" className="col-span-2">Add Task</Button>
+      </form>
+    </Form>
   )
 }

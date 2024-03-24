@@ -2,24 +2,21 @@ import { CardTitle, CardDescription, CardHeader, CardContent, CardFooter, Card }
 import { Button } from "@/components/ui/button"
 
 import TaskInputForm from "@/components/TaskInputForm"
-import { Toaster } from "./components/ui/toaster"
-import DueDateInput from "./components/DueDateInput"
+import { Toaster } from "./components/ui/sonner"
+import { Progress } from "./components/ui/progress"
 
 export default function App() {
   return (
     <>
     <Toaster />
-      <div className="px-96 py-72">
-          <Card>
+      <div className="flex justify-center items-center h-screen">
+          <Card >
             <CardHeader>
               <CardTitle>TaskMaster</CardTitle>
               <CardDescription>Add, complete, and delete tasks</CardDescription>
             </CardHeader>
             <CardContent className="grid gap-4">
-              <div className="grid grid-cols-2 gap-4">
                 <TaskInputForm />
-                <DueDateInput />
-              </div>
               <ul className="divide-y divide-gray-200 dark:divide-gray-700">
                 <li className="flex items-center justify-between py-2">
                   <div className="flex items-center">
@@ -54,7 +51,7 @@ export default function App() {
               </ul>
             </CardContent>
             <CardFooter>
-              <Button type="submit" className="w-full">Add Task</Button>
+              <Progress value={42} />
             </CardFooter>
           </Card>
       </div>
