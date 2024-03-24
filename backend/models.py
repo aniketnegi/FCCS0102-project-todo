@@ -18,9 +18,7 @@ class Todo(Base):
         self.title = title
 
     def __repr__(self) -> str:
-        return (
-            f"{self.title} -> (created: {self.created_at} modified: {self.updated_at})"
-        )
+        return f"({self.id}) {self.title} -> (created: {self.created_at} modified: {self.updated_at})"
 
     def as_json(self):
         return {
