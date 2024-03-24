@@ -1,10 +1,11 @@
 from db import Todo, session
-from flask import Flask, Response, jsonify, request
+from flask import Flask, jsonify, request
+from flask_cors import CORS
 
 # from flask_cors import CORS
 
 app = Flask(__name__)
-# cors = CORS(app)
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 
 @app.get("/api/todos")
