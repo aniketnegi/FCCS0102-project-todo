@@ -3,10 +3,11 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
-cors = CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
+cors = CORS(app, resources={r"*": {"origins": "http://localhost:3000"}})
 
 
 @app.get("/api/todos")
+@cross_origin()
 def fetch_all():
     "Get all todos"
     todos = session.query(Todo).order_by(Todo.id.asc()).all()
@@ -17,6 +18,7 @@ def fetch_all():
 
 
 @app.post("/api/todo/create")
+@cross_origin()
 def create_todo():
     "Create a new todo list item"
     data = request.get_json()["todo"]
@@ -33,6 +35,7 @@ def create_todo():
 
 
 @app.get("/api/todo/<id>")
+@cross_origin()
 def fetch_one(id: int):
     "Get a single todo by id"
     data = session.query(Todo).filter_by(id=id).one()
@@ -41,6 +44,7 @@ def fetch_one(id: int):
 
 
 @app.delete("/api/todo/<id>")
+@cross_origin()
 def delete_todo(id):
     "Delete as single todo by id"
     data = session.query(Todo).filter_by(id=id).one()
@@ -52,6 +56,7 @@ def delete_todo(id):
 
 
 @app.put("/api/todo/<id>")
+@cross_origin()
 def update_todo(id):
     "Updates a todo by id"
     todo = session.query(Todo).filter_by(id=id)
