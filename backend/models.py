@@ -12,18 +12,21 @@ class Todo(Base):
     title = Column("title", String)
     created_at = Column("created_at", DateTime, default=date.now())
     updated_at = Column("updated_at", DateTime, default=date.now(), onupdate=date.now())
+    due_date = Column("due_date", DateTime)
     completed = Column("completed", Boolean, default=false(), nullable=False)
 
-    def __init__(self, title) -> None:
+    def __init__(self, title, due_date=date.now()) -> None:
         self.title = title
+        self.due_date = due_date
 
     def __repr__(self) -> str:
-        return f"({self.id}) {self.title} -> (created: {self.created_at} modified: {self.updated_at})"
+        return f"({self.id}) {self.title} -> (created: {self.created_at} modified: {self.updated_at} due_date: {self.due_date})"
 
     def as_json(self):
         return {
             "id": self.id,
             "title": self.title,
+            "due_date": self.due_date,
             "created_at": self.created_at,
             "updated_at": self.updated_at,
             "completed": self.completed,

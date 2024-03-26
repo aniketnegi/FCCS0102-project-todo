@@ -1,40 +1,40 @@
-import { useState, useEffect } from "react"
-import axios from 'axios'
 import { Checkbox } from "./ui/checkbox";
+import { Button } from "./ui/button";
 
-function Task() {
-    const [todos, setTodos] = useState([]);
+import { Trash, Pencil } from "lucide-react";
 
-    useEffect(() => {
-        axios.get('http://127.0.0.1:5000/api/todos')
-            .then(function (response) {
-                // handle success
-                setTodos(response.data)
-            })
-            .catch(function (error) {
-                // handle error
-                console.log(error);
-            })
-            .finally(function () {
-                // always executed
-            });
-    }, [])
+import { truncateString } from "@/lib/utils";
 
-    return (
-        <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-            {todos.map((todo) => (
-                <li key={todo.id} className="flex items-center justify-between py-2">
-                    <div className="flex items-center">
-                        <Checkbox
-                            className="form-checkbox h-5 w-5 text-[#000] dark:text-[#fff] border-gray-300 dark:border-gray-700 rounded"
-                        />
-                        <span className="ml-2">{todo.title}</span>
-                    </div>
-                    <div className="text-gray-500 dark:text-gray-400">Due on: {new Date(todo.created_at).toDateString()}</div>
-                </li>
-            ))}
-        </ul>
-    )
+interface todoObject {
+    id: Number,
+    title: string,
+    due_date: Date,
+    created_at: Date,
+    updated_at: Date,
+    completed: Boolean
 }
 
-export default Task
+interface TaskProps {
+    todoEvent: todoObject
+}
+
+export default function Task({ todoEvent }: TaskProps) {
+    return (
+        <li key={todoEvent.id.toString()} className="flex items-center justify-between py-3">
+            <div className="flex items-center space-x-2">
+                <Checkbox />
+                <span>{truncateString(todoEvent.title)}</span>
+            </div>
+            <div className="flex space-x-4 pr-3">
+                <div className="text-gray-500 dark:text-gray-400">Due on: {new Date(todoEvent.due_date).toDateString()}</div>
+                <Button size="sm" variant="ghost">
+                    <Pencil size={16} />
+                </Button>
+                <Button size="sm" variant="ghost">
+                    <Trash size={16} />
+                </Button>
+            </div>
+        </li>
+
+    )
+}

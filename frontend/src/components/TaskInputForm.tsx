@@ -53,17 +53,13 @@ export default function TaskInputForm({ updateTodos }: TaskInputFormProps) {
    * Somehow due date is not showind
   */
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    toast.success(`Created: ${data.task}`,
-      {
-        description: (
-          <span className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-            <p className="text-white">Due on: {data.dueDate.toDateString()}</p>
-          </span>
-        ),
-      });
-
+    const response = {
+      task:data.task, 
+      dueDate: data.dueDate.setDate(data.dueDate.getDate() + 1),
+    };
     axios.post('http://127.0.0.1:5000/api/todo/create', {
       "todo": data.task,
+      "due_date": data.dueDate,
     })
       .then(function (response) {
         updateTodos();
@@ -72,6 +68,16 @@ export default function TaskInputForm({ updateTodos }: TaskInputFormProps) {
       .catch(function (error) {
         console.log(error);
       });
+
+    toast.success(`Created: ${data.task}`,
+      {
+        description: (
+          <span className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+            <p className="text-white">Due on: {response.dueDate.toString()}</p>
+          </span>
+        ),
+      });
+
 
   }
 

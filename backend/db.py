@@ -14,4 +14,5 @@ if __name__ == "__main__":
     if inspect(engine).has_table(Todo.__tablename__):
         pass
     else:
+        print("Creating database:", use)
         Base.metadata.create_all(bind=engine)
