@@ -5,8 +5,10 @@ import { Trash, Pencil } from "lucide-react";
 
 import { truncateString, eventDelete } from "@/lib/utils";
 
+import EditDialog from "@/components/EditDialog";
 
-interface todoObject {
+
+export interface todoObject {
     id: number,
     title: string,
     description: string,
@@ -33,9 +35,10 @@ export default function Task({ todoEvent, updateTodos }: TaskProps) {
             </div>
             <div className="flex space-x-4 pr-3">
                 <div className="text-gray-500 dark:text-gray-400">Due on: {new Date(todoEvent.due_date).toDateString()}</div>
-                <Button size="sm" variant="outline">
-                    <Pencil size={16} />
-                </Button>
+                <EditDialog buttonChild={
+                    <Button size="sm" variant="outline">
+                        <Pencil size={16} />
+                    </Button>} updateTodos={updateTodos} todoEvent={todoEvent} />
                 <Button size="sm" variant="destructive" onClick={async () => { await eventDelete(todoEvent.id); updateTodos() }}>
                     <Trash size={16} />
                 </Button>

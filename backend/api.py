@@ -94,10 +94,11 @@ def update_todo(id):
     data = request.get_json()
     req_title = data.get("title")
     req_description = data.get("req_description")
-    req_due_date = data.get("dueDate")
+    due: int = data.get("dueDate")
+    req_due_date = datetime.fromtimestamp(int(due / 1000))
 
     with Session() as session:
-        todoEvent = session.query().filter_by(id=id).one()
+        todoEvent = session.query(Todo).filter_by(id=id).one()
         todoEvent.update(
             title=req_title, description=req_description, due_date=req_due_date
         )

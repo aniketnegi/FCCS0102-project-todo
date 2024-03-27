@@ -1,6 +1,6 @@
 import { CardTitle, CardDescription, CardHeader, CardContent, CardFooter, Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Toaster } from "@/components/ui/sonner"
+import { Toaster } from "sonner"
 import { Progress } from "@/components/ui/progress"
 
 import TaskList from "@/components/TaskList"

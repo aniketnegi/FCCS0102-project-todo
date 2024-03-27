@@ -23,7 +23,7 @@ export function eventDelete(id: number) {
   axios.delete(`http://127.0.0.1:5000/api/todo/${id}`)
     .then(() => {
       // handle success
-      toast.info("Task Deleted!", {
+      toast.warning("Task Deleted!", {
       });
     })
     .catch((error) => {
