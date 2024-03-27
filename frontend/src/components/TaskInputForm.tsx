@@ -23,7 +23,7 @@ import { Calendar } from "@/components/ui/calendar"
 import { CalendarIcon } from "lucide-react"
 
 import { format } from "date-fns"
-import { cn } from "@/lib/utils"
+import { cn, eventDelete, convertTZ } from "@/lib/utils"
 import axios from 'axios'
 
 // cheesy way to re-render <Task> on submit
@@ -60,14 +60,20 @@ export default function TaskInputForm({ updateTodos }: TaskInputFormProps) {
       "description": data.description,
       "dueDate": data.dueDate.getTime(),
     })
-      .then(function (response) {
+      .then((response) => {
         updateTodos();
-        console.log(response);
-        toast("Event has been created", {
-          description: "Sunday, December 03, 2023 at 9:00 AM",
+        toast.success("Task Created", {
+          description: `Due on: ${convertTZ(response.data.due_date, "Asia/Kolkata").toDateString()}`,
           action: {
             label: "Undo",
-            onClick: () => console.log("Undo"),
+            onClick: async () => {
+              try {
+                eventDelete(response.data.id);
+                updateTodos();
+              } catch (error) {
+                console.error("Error deleting event:", error);
+              }
+            },
           },
         });
       })
@@ -153,7 +159,7 @@ export default function TaskInputForm({ updateTodos }: TaskInputFormProps) {
           />
         </div>
         {/* TODO: This might be off by a pixel or half >:((( */}
-        <div className="flex justify-center content-center pt-8"> 
+        <div className="flex justify-center content-center pt-8">
           <Button type="submit" className="col-span-2 px-[82px] mr-4">Add Task</Button>
         </div>
       </form>

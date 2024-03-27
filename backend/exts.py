@@ -10,4 +10,3 @@ use = db_urls["prod"]
 engine = create_engine(f"sqlite:///{use}")
 
 Session = sessionmaker(bind=engine)
-session = Session()

@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from exts import Base, session
+from exts import Base, Session
 from sqlalchemy import Boolean, Column, DateTime, Integer, String
 
 
@@ -37,19 +37,22 @@ class Todo(Base):
         return f"({self.id}) {self.title} -> (created: {self.created_at} modified: {self.updated_at} due_date: {self.due_date})"
 
     def save(self):
-        session.add(self)
-        session.commit()
+        with Session() as session:
+            session.add(self)
+            session.commit()
 
     def delete(self):
-        session.delete(self)
-        session.commit()
+        with Session() as session:
+            session.delete(self)
+            session.commit()
 
     def update(self, title="", description="", due_date=None):
         self.title = title if title else self.title
         self.description = description if description else self.description
         self.due_date = due_date if due_date else self.due_date
 
-        session.commit()
+        with Session() as session:
+            session.commit()
 
     def as_json(self):
         return {

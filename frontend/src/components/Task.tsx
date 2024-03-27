@@ -3,10 +3,11 @@ import { Button } from "./ui/button";
 
 import { Trash, Pencil } from "lucide-react";
 
-import { truncateString } from "@/lib/utils";
+import { truncateString, eventDelete } from "@/lib/utils";
+
 
 interface todoObject {
-    id: Number,
+    id: number,
     title: string,
     description: string,
     due_date: Date,
@@ -17,9 +18,13 @@ interface todoObject {
 
 interface TaskProps {
     todoEvent: todoObject
+    updateTodos: () => void,
 }
 
-export default function Task({ todoEvent }: TaskProps) {
+
+
+
+export default function Task({ todoEvent, updateTodos }: TaskProps) {
     return (
         <li key={todoEvent.id.toString()} className="flex items-center justify-between py-3">
             <div className="flex items-center space-x-2">
@@ -31,7 +36,7 @@ export default function Task({ todoEvent }: TaskProps) {
                 <Button size="sm" variant="outline">
                     <Pencil size={16} />
                 </Button>
-                <Button size="sm" variant="destructive">
+                <Button size="sm" variant="destructive" onClick={async () => { await eventDelete(todoEvent.id); updateTodos() }}>
                     <Trash size={16} />
                 </Button>
             </div>

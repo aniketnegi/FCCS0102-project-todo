@@ -5,7 +5,12 @@ import Task from "./Task";
 
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
-export default function TaskList() {
+interface TaskListProps {
+    refreshKey: number,
+    updateTodos: () => void,
+}
+
+export default function TaskList({ refreshKey, updateTodos }: TaskListProps) {
     const [todos, setTodos] = useState([]);
 
     useEffect(() => {
@@ -21,13 +26,13 @@ export default function TaskList() {
             .finally(function () {
                 // always executed
             });
-    }, [])
+    }, [refreshKey])
 
     return (
         <ScrollArea className="h-[700px] w-full rounded-sm p-1">
             <ul className="divide-y divide-gray-200 dark:divide-gray-700">
                 {todos.map((todo) => (
-                    <Task todoEvent={todo} />
+                    <Task todoEvent={todo} updateTodos={updateTodos} />
                 ))}
             </ul>
             <ScrollBar orientation="vertical" />

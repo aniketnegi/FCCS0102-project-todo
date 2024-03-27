@@ -8,38 +8,42 @@ import TaskInputForm from "@/components/TaskInputForm"
 
 import { Sun, Moon } from "lucide-react"
 
-// cheesy way of updating Task component (re-render) every time new todo is added
-// import React, { useState } from 'react';
+/* To Update the TaskList everytime an action is performed
+ * 1. define a `updateTodos() fn in a parent component to change a `key` set by useState hook
+ * 2. pass the `key` as prop into the TaskList, and use it as a parameter in the `useEffect(()=>{}, [key])` in there to get a new list when `key` changes by calling `updateTodos()`
+ * 3. pass `updateTodos()` as a prop to any component that needs to trigger a new fetch from API.
+*/
+import { useState } from 'react';
 
 
 export default function App() {
   // cheesy contd.
-  // const [todosKey, setTodosKey] = useState(0);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   // Add a function to update the key when new todos are added
-  // const updateTodos = () => {
-  //     setTodosKey((prevKey) => prevKey + 1);
-  // };
+  function updateTodos() {
+    setRefreshKey((prevKey) => prevKey + 1);
+  };
   return (
     <>
-      <Toaster />
-        <Card className="flex flex-col max-w-5xl h-full w-full my-2 mx-5">
-          <CardHeader className="flex flex-row justify-between">
-            <div>
-              <CardTitle><p className="text-5xl antialiased font-bold">TaskMaster</p></CardTitle>
-              <CardDescription>Your very own task management system</CardDescription>
-            </div>
-            {/* TODO: Conditionally render Sun or Moon based on current theme */}
-            <Button size="theme" variant="ghost"><Moon /></Button> 
-          </CardHeader>
-          <CardContent className="grid gap-4">
-            <TaskInputForm updateTodos={() => { }} />
-            <TaskList />
-          </CardContent>
-          <CardFooter>
-            <Progress value={42} />
-          </CardFooter>
-        </Card>
+      <Toaster richColors/>
+      <Card className="flex flex-col max-w-5xl h-full w-full my-2 mx-5">
+        <CardHeader className="flex flex-row justify-between">
+          <div>
+            <CardTitle><p className="text-5xl antialiased font-bold">TaskMaster</p></CardTitle>
+            <CardDescription>Your very own task management system</CardDescription>
+          </div>
+          {/* TODO: Conditionally render Sun or Moon based on current theme */}
+          <Button size="theme" variant="ghost"><Moon /></Button>
+        </CardHeader>
+        <CardContent className="grid gap-4">
+          <TaskInputForm updateTodos={updateTodos} />
+          <TaskList refreshKey={refreshKey} updateTodos={updateTodos}/>
+        </CardContent>
+        <CardFooter>
+          <Progress value={42} />
+        </CardFooter>
+      </Card>
     </>
   )
 }
