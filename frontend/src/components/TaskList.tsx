@@ -24,7 +24,7 @@ export default function TaskList() {
     }, [])
 
     return (
-        <ScrollArea className="h-[700px] w-[900px] rounded-sm p-1">
+        <ScrollArea className="h-[700px] w-full rounded-sm p-1">
             <ul className="divide-y divide-gray-200 dark:divide-gray-700">
                 {todos.map((todo) => (
                     <Task todoEvent={todo} />

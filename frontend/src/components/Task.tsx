@@ -8,6 +8,7 @@ import { truncateString } from "@/lib/utils";
 interface todoObject {
     id: Number,
     title: string,
+    description: string,
     due_date: Date,
     created_at: Date,
     updated_at: Date,
@@ -27,10 +28,10 @@ export default function Task({ todoEvent }: TaskProps) {
             </div>
             <div className="flex space-x-4 pr-3">
                 <div className="text-gray-500 dark:text-gray-400">Due on: {new Date(todoEvent.due_date).toDateString()}</div>
-                <Button size="sm" variant="ghost">
+                <Button size="sm" variant="outline">
                     <Pencil size={16} />
                 </Button>
-                <Button size="sm" variant="ghost">
+                <Button size="sm" variant="destructive">
                     <Trash size={16} />
                 </Button>
             </div>

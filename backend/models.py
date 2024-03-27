@@ -1,31 +1,61 @@
-from sqlalchemy import Boolean, Column, DateTime, Integer, String, false
-from sqlalchemy.orm import declarative_base
-from sqlalchemy.sql import func as date
+from datetime import datetime
 
-Base = declarative_base()
+from exts import Base, session
+from sqlalchemy import Boolean, Column, DateTime, Integer, String
 
 
 class Todo(Base):
+    """
+    class Todo:
+        id: int primary_key
+        title: str
+        description: str (text)
+        created_at: datetime
+        updated_at: datetime
+        due_date: datetime
+        completed: boolean
+    """
+
     __tablename__ = "todos"
 
     id = Column("id", Integer, autoincrement=True, primary_key=True)
-    title = Column("title", String)
-    created_at = Column("created_at", DateTime, default=date.now())
-    updated_at = Column("updated_at", DateTime, default=date.now(), onupdate=date.now())
+    title = Column("title", String(50))
+    description = Column("description", String(100), nullable=True)
+    created_at = Column("created_at", DateTime, default=datetime.now())
+    updated_at = Column(
+        "updated_at", DateTime, default=datetime.now(), onupdate=datetime.now()
+    )
     due_date = Column("due_date", DateTime)
-    completed = Column("completed", Boolean, default=false(), nullable=False)
+    completed = Column("completed", Boolean, default=False, nullable=False)
 
-    def __init__(self, title, due_date=date.now()) -> None:
+    def __init__(self, title: str, description: str, due_date: datetime) -> None:
         self.title = title
+        self.description = description
         self.due_date = due_date
 
     def __repr__(self) -> str:
         return f"({self.id}) {self.title} -> (created: {self.created_at} modified: {self.updated_at} due_date: {self.due_date})"
 
+    def save(self):
+        session.add(self)
+        session.commit()
+
+    def delete(self):
+        session.delete(self)
+        session.commit()
+
+    def update(self, title="", description="", due_date=None):
+        self.title = title if title else self.title
+        self.description = description if description else self.description
+        self.due_date = due_date if due_date else self.due_date
+
+        session.commit()
+
     def as_json(self):
         return {
             "id": self.id,
             "title": self.title,
+            "description": self.description,
             "due_date": self.due_date,
             "created_at": self.created_at,
             "updated_at": self.updated_at,
