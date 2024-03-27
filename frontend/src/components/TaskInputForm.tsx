@@ -81,8 +81,8 @@ export default function TaskInputForm({ updateTodos }: TaskInputFormProps) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-3 gap-4">
-        <div className="flex flex-row col-span-2 gap-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-12">
+        <div className="flex flex-row col-span-10 gap-4">
           <FormField
             control={form.control}
             name="task"
@@ -115,15 +115,15 @@ export default function TaskInputForm({ updateTodos }: TaskInputFormProps) {
             control={form.control}
             name="dueDate"
             render={({ field }) => (
-              <FormItem className="grid grid-flow-row auto-rows-max h-auto pt-1.5">
-                <FormLabel className="mb-1">Due Date</FormLabel>
+              <FormItem>
+                <FormLabel>Due Date</FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
                       <Button
                         variant={"outline"}
                         className={cn(
-                          "w-[240px] pl-3 text-left font-normal",
+                          "w-full pl-3 text-left font-normal",
                           !field.value && "text-muted-foreground"
                         )}
                       >
@@ -152,7 +152,10 @@ export default function TaskInputForm({ updateTodos }: TaskInputFormProps) {
             )}
           />
         </div>
-        <Button type="submit" className="col-span-1">Add Task</Button>
+        {/* TODO: This might be off by a pixel or half >:((( */}
+        <div className="flex justify-center content-center pt-8"> 
+          <Button type="submit" className="col-span-2 px-[82px] mr-4">Add Task</Button>
+        </div>
       </form>
     </Form>
   )
