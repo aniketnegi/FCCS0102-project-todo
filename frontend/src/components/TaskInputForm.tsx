@@ -47,6 +47,7 @@ export default function TaskInputForm({ updateTodos }: TaskInputFormProps) {
       "dueDate": data.dueDate.getTime(),
     })
       .then((response) => {
+        console.log(response.data);
         updateTodos();
         toast.success("Task Created", {
           description: `Due on: ${convertTZ(response.data.due_date, "Asia/Kolkata").toDateString()}`,

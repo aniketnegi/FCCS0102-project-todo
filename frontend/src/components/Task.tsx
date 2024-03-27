@@ -6,6 +6,7 @@ import { Trash, Pencil } from "lucide-react";
 import { truncateString, eventDelete } from "@/lib/utils";
 
 import EditDialog from "@/components/EditDialog";
+import { Separator } from "@/components/ui/separator";
 
 
 export interface todoObject {
@@ -24,14 +25,18 @@ interface TaskProps {
 }
 
 
-
-
 export default function Task({ todoEvent, updateTodos }: TaskProps) {
     return (
         <li key={todoEvent.id.toString()} className="flex items-center justify-between py-3">
             <div className="flex items-center space-x-2">
                 <Checkbox />
-                <span>{truncateString(todoEvent.title)}</span>
+                {todoEvent.description !== "" ? (
+                    // TODO: why is this fucking separator not working
+                    <div><p>{truncateString(todoEvent.title, 20)}</p> <Separator decorative/> <p>{truncateString(todoEvent.description, 40)}</p></div>
+                ) : (
+                    <p>{truncateString(todoEvent.title)}</p>
+                )}
+
             </div>
             <div className="flex space-x-4 pr-3">
                 <div className="text-gray-500 dark:text-gray-400">Due on: {new Date(todoEvent.due_date).toDateString()}</div>
