@@ -7,6 +7,7 @@ import { truncateString, eventDelete } from "@/lib/utils";
 
 import EditDialog from "@/components/EditDialog";
 import { Separator } from "@/components/ui/separator";
+import axios from "axios";
 
 
 export interface todoObject {
@@ -26,13 +27,19 @@ interface TaskProps {
 
 
 export default function Task({ todoEvent, updateTodos }: TaskProps) {
+
+    function onCheck() {
+        axios.put(`http://127.0.0.1:5000/api/todo/toggle/${todoEvent.id}`)
+    }
+
     return (
         <li key={todoEvent.id.toString()} className="flex items-center justify-between py-3">
             <div className="flex items-center space-x-2">
-                <Checkbox />
+                {/* TODO: There has got to be a better way to do this */}
+                {todoEvent.completed ? <Checkbox checked onClick={onCheck} /> : <Checkbox onClick={onCheck} />}
                 {todoEvent.description !== "" ? (
                     // TODO: why is this fucking separator not working
-                    <div><p>{truncateString(todoEvent.title, 20)}</p> <Separator decorative/> <p>{truncateString(todoEvent.description, 40)}</p></div>
+                    <div><p>{truncateString(todoEvent.title, 20)}</p> <Separator decorative /> <p>{truncateString(todoEvent.description, 40)}</p></div>
                 ) : (
                     <p>{truncateString(todoEvent.title)}</p>
                 )}

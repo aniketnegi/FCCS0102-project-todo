@@ -93,7 +93,7 @@ def update_todo(id):
 
     data = request.get_json()
     req_title = data.get("title")
-    req_description = data.get("req_description")
+    req_description = data.get("description")
     due: int = data.get("dueDate")
     req_due_date = datetime.fromtimestamp(int(due / 1000))
 
@@ -102,6 +102,18 @@ def update_todo(id):
         todoEvent.update(
             title=req_title, description=req_description, due_date=req_due_date
         )
+
+    return todoEvent.as_json()
+
+
+@app.put("/api/todo/toggle/<id>")
+@cross_origin()
+def toggle_completed(id):
+    "Updates a todo completed status by id"
+
+    with Session() as session:
+        todoEvent = session.query(Todo).filter_by(id=id).one()
+        todoEvent.toggle_completed()
 
     return todoEvent.as_json()
 

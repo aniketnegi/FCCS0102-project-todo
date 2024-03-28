@@ -60,7 +60,7 @@ export default function EditDialog({ buttonChild, updateTodos, todoEvent }: Edit
             "description": data.description,
             "dueDate": data.dueDate.getTime(),
         })
-            .then((response) => {
+            .then(() => {
 
                 toast.success("Task Updated!", {
                 });

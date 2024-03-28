@@ -46,10 +46,10 @@ class Todo(Base):
             session.delete(self)
             session.commit()
 
-    def update(self, title="", description="", due_date=None):
-        self.title = title if title else self.title
-        self.description = description if description else self.description
-        self.due_date = due_date if due_date else self.due_date
+    def update(self, title, description, due_date):
+        self.title = title if title is not None else self.title
+        self.description = description if description is not None else self.description
+        self.due_date = due_date if due_date is not None else self.due_date
 
         with Session.begin() as session:
             stmt = (
@@ -64,6 +64,23 @@ class Todo(Base):
 
             session.execute(stmt)
             session.commit()
+
+    def toggle_completed(self):
+        with Session.begin() as session:
+            done = session.query(Todo).get(self.id)
+            if done is not None:
+                done = not done.completed
+
+                stmt = (
+                    update(Todo)
+                    .where(Todo.id.is_(self.id))
+                    .values(
+                        completed=done,
+                    )
+                )
+
+                session.execute(stmt)
+                session.commit()
 
     def as_json(self):
         return {
