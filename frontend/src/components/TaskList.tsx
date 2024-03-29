@@ -11,8 +11,6 @@ export interface todoObject {
     title: string,
     description: string,
     due_date: Date,
-    created_at: Date,
-    updated_at: Date,
     completed: boolean
 }
 
