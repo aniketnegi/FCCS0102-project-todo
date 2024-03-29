@@ -35,3 +35,7 @@ aniketnegi@dev:~/app/frontend$ npm run dev
 ```
 
 3. go to `localhost:5173`, and enjoy
+
+## TODO
+
+- [ ] switch from using SQLite to pocketbase (i want to try it out)
