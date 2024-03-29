@@ -8,9 +8,10 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 interface TaskListProps {
     refreshKey: number,
     updateTodos: () => void,
+    updateProgress: (val: number) => void,
 }
 
-export default function TaskList({ refreshKey, updateTodos }: TaskListProps) {
+export default function TaskList({ refreshKey, updateTodos, updateProgress }: TaskListProps) {
     const [todos, setTodos] = useState([]);
 
     useEffect(() => {
@@ -29,10 +30,10 @@ export default function TaskList({ refreshKey, updateTodos }: TaskListProps) {
     }, [refreshKey])
 
     return (
-        <ScrollArea className="h-[700px] w-full rounded-sm p-1">
+        <ScrollArea className="h-content max-h-[730px] w-full border rounded-md px-4 mb-0">
             <ul className="divide-y divide-gray-200 dark:divide-gray-700">
                 {todos.map((todo) => (
-                    <Task todoEvent={todo} updateTodos={updateTodos} />
+                    <Task todoEvent={todo} updateTodos={updateTodos} updateProgress={updateProgress}/>
                 ))}
             </ul>
             <ScrollBar orientation="vertical" />

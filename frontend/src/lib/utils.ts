@@ -32,6 +32,15 @@ export function eventDelete(id: number) {
     })
 }
 
+export async function getChecked(): Promise<number> {
+  try {
+    const response = await axios.get("http://127.0.0.1:5000/api/todos/checked");
+    return response.data.progress;
+  } catch (err) {
+    console.log(err);
+    return -1;
+  }
+}
 
 
 export function convertTZ(date: Date, tzString: string): Date {

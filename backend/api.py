@@ -118,5 +118,19 @@ def toggle_completed(id):
     return todoEvent.as_json()
 
 
+@app.get("/api/todos/checked")
+@cross_origin()
+def fetch_completed():
+    "Get a percentage of completed todos"
+
+    with Session() as session:
+        completed = session.query(Todo).filter_by(completed=True).count()
+        all = session.query(Todo).count()
+
+        response = {"progress": int((completed / all) * 100)}
+
+    return response
+
+
 if __name__ == "__main__":
     app.run(debug=True)

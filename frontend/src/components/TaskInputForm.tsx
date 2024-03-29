@@ -15,6 +15,7 @@ import DateInput from "./DateInput"
 
 interface TaskInputFormProps {
   updateTodos: () => void;
+  updateProgress: (val: number) => {};
 }
 
 
@@ -27,7 +28,7 @@ const FormSchema = z.object({
   // TODO: dueTime: z.time() ?????
 })
 
-export default function TaskInputForm({ updateTodos }: TaskInputFormProps) {
+export default function TaskInputForm({ updateTodos, updateProgress }: TaskInputFormProps) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -47,8 +48,11 @@ export default function TaskInputForm({ updateTodos }: TaskInputFormProps) {
       "dueDate": data.dueDate.getTime(),
     })
       .then((response) => {
-        console.log(response.data);
         updateTodos();
+
+        axios.get("http://127.0.0.1:5000/api/todos/checked").then((response) => {
+            updateProgress(response.data.progress);
+        });
         toast.success("Task Created", {
           description: `Due on: ${convertTZ(response.data.due_date, "Asia/Kolkata").toDateString()}`,
           action: {
