@@ -45,14 +45,16 @@ export default function TaskInputForm({ updateTodos, updateProgress }: TaskInput
     axios.post('http://127.0.0.1:5000/api/todo/create', {
       "title": data.task,
       "description": data.description,
+      // have to do the following to properly convert time from JS object to Python datetime. UTC time should (?) solve this
       "dueDate": data.dueDate.getTime(),
     })
       .then((response) => {
-        updateTodos();
 
         axios.get("http://127.0.0.1:5000/api/todos/checked").then((response) => {
-            updateProgress(response.data.progress);
+          updateProgress(response.data.progress);
         });
+
+        updateTodos();
         toast.success("Task Created", {
           description: `Due on: ${convertTZ(response.data.due_date, "Asia/Kolkata").toDateString()}`,
           action: {

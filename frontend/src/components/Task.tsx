@@ -15,7 +15,7 @@ export interface todoObject {
     due_date: Date,
     created_at: Date,
     updated_at: Date,
-    completed: Boolean
+    completed: boolean
 }
 
 interface TaskProps {
@@ -34,17 +34,16 @@ export default function Task({ todoEvent, updateTodos, updateProgress }: TaskPro
             axios.get("http://127.0.0.1:5000/api/todos/checked").then((response) => {
                 updateProgress(response.data.progress);
             });
-            updateTodos();
 
-        })
+        }).finally(() => { updateTodos() });
+
 
     }
 
     return (
-        <li key={todoEvent.id} className="flex items-center justify-between py-3">
+        <>
             <div className="flex items-center space-x-2">
-                {/* TODO: There has got to be a better way to do this */}
-                {todoEvent.completed ? <Checkbox checked onClick={onCheck} /> : <Checkbox onClick={onCheck} />}
+                <Checkbox checked={todoEvent.completed} onCheckedChange={() => onCheck()} />
 
                 <div className="flex flex-row items-baseline gap-2">
                     <p className="text-md text-slate-900 dark:text-white">{truncateString(todoEvent.title, 20)}</p>
@@ -62,13 +61,13 @@ export default function Task({ todoEvent, updateTodos, updateProgress }: TaskPro
                     await eventDelete(todoEvent.id);
                     axios.get("http://127.0.0.1:5000/api/todos/checked").then((response) => {
                         updateProgress(response.data.progress);
-                    }); updateTodos();
+                        updateTodos();
+                    });
                 }
                 }>
                     <Trash size={16} />
                 </Button>
             </div>
-        </li >
-
+        </>
     )
 }

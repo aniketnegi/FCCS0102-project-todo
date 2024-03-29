@@ -14,7 +14,7 @@ import { Button } from "./ui/button"
 
 import { CalendarIcon } from "lucide-react"
 
-import { format } from "date-fns"
+import { format, isBefore, startOfDay } from "date-fns"
 import { cn } from "@/lib/utils"
 
 interface DateInputProps {
@@ -58,7 +58,8 @@ export default function DateInput({ form, name, label, mandatory, placeholder }:
                                 selected={field.value}
                                 onSelect={field.onChange}
                                 disabled={(date) =>
-                                    date < new Date() || date < new Date("1900-01-01")
+                                    // TODO: TimeZone bs is causing the dates issue!!
+                                    isBefore(startOfDay(date), startOfDay(new Date()))
                                 }
                                 initialFocus
                             />

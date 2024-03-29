@@ -16,7 +16,7 @@ def fetch_all():
     "Get all todos"
 
     with Session() as session:
-        todos = session.query(Todo).all()
+        todos = session.query(Todo).order_by(Todo.due_date.asc()).all()
 
     res = jsonify([todo.as_json() for todo in todos])
 
@@ -123,11 +123,20 @@ def toggle_completed(id):
 def fetch_completed():
     "Get a percentage of completed todos"
 
+    progress = 0
+
     with Session() as session:
         completed = session.query(Todo).filter_by(completed=True).count()
         all = session.query(Todo).count()
 
-        response = {"progress": int((completed / all) * 100)}
+        try:
+            progress = int((completed / all) * 100)
+        except ZeroDivisionError:
+            progress = 0
+        except Exception as e:
+            print(f"Err trying to get completed percentage: {e}")
+
+        response = {"progress": progress}
 
     return response
 

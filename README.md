@@ -39,3 +39,4 @@ aniketnegi@dev:~/app/frontend$ npm run dev
 ## TODO
 
 - [ ] switch from using SQLite to pocketbase (i want to try it out)
+- [x] **URGENT**: just realised the date picker is not allowing to select today.

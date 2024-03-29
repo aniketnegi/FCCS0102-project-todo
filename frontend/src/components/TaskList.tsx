@@ -5,6 +5,17 @@ import Task from "./Task";
 
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
+
+export interface todoObject {
+    id: number,
+    title: string,
+    description: string,
+    due_date: Date,
+    created_at: Date,
+    updated_at: Date,
+    completed: boolean
+}
+
 interface TaskListProps {
     refreshKey: number,
     updateTodos: () => void,
@@ -32,8 +43,10 @@ export default function TaskList({ refreshKey, updateTodos, updateProgress }: Ta
     return (
         <ScrollArea className="h-content max-h-[730px] w-full border rounded-md px-4 mb-0">
             <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-                {todos.map((todo) => (
-                    <Task todoEvent={todo} updateTodos={updateTodos} updateProgress={updateProgress}/>
+                {todos.map((todo: todoObject) => (
+                    <li key={todo.id} className="flex items-center justify-between py-3">
+                        <Task todoEvent={todo} updateTodos={updateTodos} updateProgress={updateProgress} />
+                    </li>
                 ))}
             </ul>
             <ScrollBar orientation="vertical" />

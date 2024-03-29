@@ -25,7 +25,7 @@ export default function App() {
 
   // Add a function to update the key when new todos are added
   function updateTodos() {
-    setRefreshKey((prevKey) => prevKey + 1);
+    setRefreshKey((refreshKey) => refreshKey + 1);
   };
 
   // progress bar
@@ -35,10 +35,14 @@ export default function App() {
     return () => clearTimeout(timer)
   }
   useEffect(() => {
-        axios.get("http://127.0.0.1:5000/api/todos/checked").then((response) => {
-            updateProgress(response.data.progress);
-        });
-  }, [])
+    axios.get("http://127.0.0.1:5000/api/todos/checked")
+      .then((response) => {
+        updateProgress(response.data.progress);
+      })
+      .catch((error) => {
+        console.error("Failed to fetch progress:", error);
+      });
+  }, []);
 
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
@@ -52,7 +56,7 @@ export default function App() {
           <ModeToggle />
         </CardHeader>
         <CardContent className="grid gap-3">
-          <TaskInputForm updateTodos={updateTodos} updateProgress={updateProgress}/>
+          <TaskInputForm updateTodos={updateTodos} updateProgress={updateProgress} />
           <TaskList refreshKey={refreshKey} updateTodos={updateTodos} updateProgress={updateProgress} />
         </CardContent>
         <CardFooter className="flex flex-col items-start">
