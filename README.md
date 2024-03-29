@@ -62,3 +62,4 @@ aniketnegi@dev:~/app/frontend$ npm run dev
 - [x] **URGENT**: just realised the date picker is not allowing to select today.
 - [ ] `setup.sh` script
 - [ ] setup and use env vars
+- [ ] ugh upon closer inspection, the progress bar broke again
