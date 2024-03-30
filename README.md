@@ -62,5 +62,10 @@ aniketnegi@dev:~/app/frontend$ npm run dev
   - done in just 40 mins. damn porting this was EZ!
 - [x] **URGENT**: just realised the date picker is not allowing to select today.
 - [ ] `setup.sh` script
+  - [ ] get pocketbase binary for the correct OS if not already installed.
+  - [ ] create tables if not already present
+  - [ ] create 3 processes for - backend, db, frontend
+  - [ ] kill all when quit
+  - [ ] display logs if required
 - [ ] setup and use env vars
 - [ ] ugh upon closer inspection, the progress bar broke again
