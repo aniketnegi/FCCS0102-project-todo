@@ -33,6 +33,7 @@ aniketnegi@dev:~/app$ cd backend
 aniketnegi@dev:~/app/backend$ python3 -m venv .venv
 aniketnegi@dev:~/app/backend$ source .venv/bin/activate
 aniketnegi@dev:~/app/backend$ pip install -r requirements.txt
+aniketnegi@dev:~/app/backend$ python3 api.py
 ```
 
 2. db (pocketbase)
