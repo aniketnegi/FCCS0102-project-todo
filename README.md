@@ -36,9 +36,14 @@ aniketnegi@dev:~/app/backend$ pip install -r requirements.txt
 aniketnegi@dev:~/app/backend$ python3 api.py
 ```
 
-2. db (pocketbase)
-   `admin user: admin@taskmaster.com (passwd: password1234)`
-   `user user: user@taskmaster.com (passwd: password1234)`
+2. db (pocketbase).
+
+> [!IMPORTANT]
+> download the pocketbase binary from [here](https://pocketbase.io/docs/) for your system. extract it and replace the binary in `backend/db`.
+
+`admin user: admin@taskmaster.com (passwd: password1234)`
+
+`user user: user@taskmaster.com (passwd: password1234)`
 
 ```console
 aniketnegi@dev:~/app$ cd backend/db
@@ -61,6 +66,7 @@ aniketnegi@dev:~/app/frontend$ npm run dev
 - [x] switch from using SQLite to pocketbase (i want to try it out)
   - done in just 40 mins. damn porting this was EZ!
 - [x] **URGENT**: just realised the date picker is not allowing to select today.
+- [ ] add failure upon passing of due date
 - [ ] `setup.sh` script
   - [ ] get pocketbase binary for the correct OS if not already installed.
   - [ ] create tables if not already present
