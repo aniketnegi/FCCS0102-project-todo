@@ -63,15 +63,21 @@ aniketnegi@dev:~/app/frontend$ npm run dev
 
 ## TODO
 
+### Short Term
+
 - [x] switch from using SQLite to pocketbase (i want to try it out)
   - done in just 40 mins. damn porting this was EZ!
 - [x] **URGENT**: just realised the date picker is not allowing to select today.
 - [ ] add failure upon passing of due date
+- [ ] ugh upon closer inspection, the progress bar broke again
+
+### Long Term
+
+- [ ] rewrite in nextJS to host on vercel (i really want to build a server just for this. yes i won't buy a VPS. don't ask me why), because aamna wants to use it.
+- [ ] setup and use env vars
 - [ ] `setup.sh` script
   - [ ] get pocketbase binary for the correct OS if not already installed.
   - [ ] create tables if not already present
   - [ ] create 3 processes for - backend, db, frontend
   - [ ] kill all when quit
   - [ ] display logs if required
-- [ ] setup and use env vars
-- [ ] ugh upon closer inspection, the progress bar broke again
